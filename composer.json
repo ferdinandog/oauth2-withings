@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "WayToHealth\\OAuth2\\Client\\": "src/"
+            "Ferdinandog\\OAuth2\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WayToHealth\\OAuth2\\Client\\Test\\": "tests/src/"
+            "Ferdinandog\\Tests\\": "tests/"
         }
     }
 }

@@ -6,6 +6,8 @@ This package provides Withings OAuth 2.0 support for the PHP League's [OAuth 2.0
 
 This package is compliant with [PSR-1][], [PSR-12][], [PSR-4][], and [PSR-7][]. If you notice compliance oversights, please send a patch via pull request.
 
+This package is a minor update to the waytohealth/oauth2-withings package using the work done in the fork gaelreyrol/oauth2-withings as a reference.
+
 ## Requirements
 
 The following versions of PHP are supported.
@@ -29,7 +31,7 @@ composer require ferdinandog/oauth2-withings
 ### Authorization Code Grant
 
 ```php
-use WayToHealth\OAuth2\Client\Provider\Withings;
+use Ferdinandog\OAuth2\Client\Provider\Withings;
 
 $provider = new Withings([
     'clientId'          => '{withings-oauth2-client-id}',
@@ -64,7 +66,7 @@ $data = $provider->getParsedResponse($request);
 Once your application is authorized, you can refresh an expired token using a refresh token rather than going through the entire process of obtaining a brand new token. To do so, simply reuse this refresh token from your data store to request a refresh.
 
 ```php
-$provider = new WayToHealth\OAuth2\Client\Provider\Withings([
+$provider = new Ferdinandog\OAuth2\Client\Provider\Withings([
     'clientId'          => '{withings-oauth2-client-id}',
     'clientSecret'      => '{withings-client-secret}',
     'redirectUri'       => 'https://example.com/callback-url'

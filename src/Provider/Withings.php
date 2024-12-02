@@ -1,6 +1,6 @@
 <?php
 
-namespace waytohealth\OAuth2\Client\Provider;
+namespace Ferdinandog\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\GenericResourceOwner;
@@ -52,9 +52,9 @@ class Withings extends AbstractProvider
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl()
+    public function getBaseAuthorizationUrl(): string
     {
-        return static::BASE_WITHINGS_URL.'/oauth2_user/authorize2';
+        return static::BASE_WITHINGS_URL . '/oauth2_user/authorize2';
     }
 
     /**
@@ -64,20 +64,20 @@ class Withings extends AbstractProvider
      *
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params)
+    public function getBaseAccessTokenUrl(array $params): string
     {
-        return static::BASE_WITHINGS_API_URL.'/v2/oauth2';
+        return static::BASE_WITHINGS_API_URL . '/v2/oauth2';
     }
 
     /**
      * Requests an access token using a specified grant and option set.
      *
-     * @param  mixed $grant
-     * @param  array $options
-     * @throws IdentityProviderException
+     * @param mixed $grant
+     * @param array $options
      * @return AccessTokenInterface
+     * @throws IdentityProviderException
      */
-    public function getAccessToken($grant, array $options = [])
+    public function getAccessToken($grant, array $options = []): AccessTokenInterface
     {
         // withings requires the action to be 'requesttoken' when getting an access token
         if (empty($options['action'])) {
@@ -88,15 +88,15 @@ class Withings extends AbstractProvider
     }
 
     /**
-     * Returns the url to retrieve the resource owners's profile/details.
+     * Returns the url to retrieve the resource owner's profile/details.
      *
      * @param AccessToken $token
      *
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        return static::BASE_WITHINGS_API_URL.'/v2/user?action=getdevice&access_token='.$token->getToken();
+        return static::BASE_WITHINGS_API_URL . '/v2/user?action=getdevice&access_token=' . $token->getToken();
     }
 
     /**
@@ -105,18 +105,18 @@ class Withings extends AbstractProvider
      *
      * @return array
      */
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): array
     {
-        return ['user.info', 'user.metrics', 'user.activity'];
+        return ['user.activity', 'user.metrics', 'user.sleepevents'];
     }
 
     /**
      * Checks Withings API response for errors.
      *
+     * @param ResponseInterface $response
+     * @param array|string $data Parsed response data
      * @throws IdentityProviderException
      *
-     * @param ResponseInterface $response
-     * @param array|string      $data     Parsed response data
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
@@ -133,15 +133,16 @@ class Withings extends AbstractProvider
     }
 
     /**
-     * Prepares an parsed access token response for a grant.
+     * Prepares a parsed access token response for a grant.
      *
-     * Custom mapping of expiration, etc should be done here. Always call the
+     * Custom mapping of expiration, etc. should be done here. Always call the
      * parent method when overloading this method.
      *
-     * @param  array $result
+     * @param array $result
      * @return array
+     * @throws IdentityProviderException
      */
-    protected function prepareAccessTokenResponse(array $result)
+    protected function prepareAccessTokenResponse(array $result): array
     {
         if (!array_key_exists('status', $result)) {
             throw new IdentityProviderException(
@@ -178,7 +179,7 @@ class Withings extends AbstractProvider
      *
      * @return array Authorization parameters
      */
-    protected function getAuthorizationParameters(array $options)
+    protected function getAuthorizationParameters(array $options): array
     {
         $params = parent::getAuthorizationParameters($options);
         unset($params['approval_prompt']);
@@ -193,12 +194,12 @@ class Withings extends AbstractProvider
      * Generates a resource owner object from a successful resource owner
      * details request.
      *
-     * @param array       $response
+     * @param array $response
      * @param AccessToken $token
      *
      * @return GenericResourceOwner
      */
-    public function createResourceOwner(array $response, AccessToken $token)
+    public function createResourceOwner(array $response, AccessToken $token): GenericResourceOwner
     {
         return new GenericResourceOwner($response, self::ACCESS_TOKEN_RESOURCE_OWNER_ID);
     }
@@ -214,7 +215,7 @@ class Withings extends AbstractProvider
     {
         $options = $this->optionProvider->getAccessTokenOptions($this->getAccessTokenMethod(), []);
         $uri = $this->appendQuery(
-            self::BASE_WITHINGS_API_URL.'/notify?action=revoke',
+            self::BASE_WITHINGS_API_URL . '/notify?action=revoke',
             $this->buildQueryString(['token' => $accessToken->getToken()])
         );
         $request = $this->getRequest(self::METHOD_POST, $uri, $options);
