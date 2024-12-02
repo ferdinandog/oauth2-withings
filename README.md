@@ -10,12 +10,11 @@ This package is compliant with [PSR-1][], [PSR-12][], [PSR-4][], and [PSR-7][]. 
 
 The following versions of PHP are supported.
 
-* PHP 5.6
-* PHP 7.0
-* PHP 7.1
 * PHP 7.4
+* PHP 8.0
+* PHP 8.1
 * PHP 8.2
-* HHVM
+* PHP 8.3
 
 ## Installation
 
