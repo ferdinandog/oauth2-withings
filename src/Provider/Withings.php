@@ -213,14 +213,7 @@ class Withings extends AbstractProvider
      */
     public function revoke(AccessToken $accessToken)
     {
-        $options = $this->optionProvider->getAccessTokenOptions($this->getAccessTokenMethod(), []);
-        $uri = $this->appendQuery(
-            self::BASE_WITHINGS_API_URL . '/notify?action=revoke',
-            $this->buildQueryString(['token' => $accessToken->getToken()])
-        );
-        $request = $this->getRequest(self::METHOD_POST, $uri, $options);
-
-        return $this->getResponse($request);
+        throw new \Exception('Not implemented');
     }
 
     public function parseResponse(ResponseInterface $response)
